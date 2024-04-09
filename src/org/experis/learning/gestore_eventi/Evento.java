@@ -32,8 +32,8 @@ public class Evento {
         this.titolo = titolo;
     }
 
-    public String getData() {
-        return formattaData(this.data);
+    public LocalDate getData() {
+        return this.data;
     }
 
     public void setData(LocalDate data) throws IllegalArgumentException {
@@ -77,13 +77,15 @@ public class Evento {
     }
             //----------------//
 
-    private String formattaData(LocalDate data){
+    protected String formattaData(LocalDate data){
         return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public int postiDisponibili(){
         return getPostiTot() - getPostiPrenotati();
     }
+
+        //------------------------//
 
     public void prenota(int posti) throws IllegalArgumentException {
         // Validazioni
