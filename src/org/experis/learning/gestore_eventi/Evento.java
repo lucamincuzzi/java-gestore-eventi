@@ -12,6 +12,7 @@ public class Evento {
 
     // Costruttori
     public Evento(String titolo, LocalDate data, int postiTot) throws IllegalArgumentException {
+        validaTitolo(titolo);
         validaData(data);
         validaPosti(postiTot);
 
@@ -31,8 +32,8 @@ public class Evento {
         this.titolo = titolo;
     }
 
-    public LocalDate getData() {
-        return data;
+    public String getData() {
+        return formattaData(this.data);
     }
 
     public void setData(LocalDate data) throws IllegalArgumentException {
@@ -51,8 +52,14 @@ public class Evento {
 
         // Metodi di servizio
             // Validatori
+    private void validaTitolo(String titolo) throws IllegalArgumentException {
+        if(titolo.trim().isEmpty()){
+            throw new IllegalArgumentException("Il titolo non può essere vuoto.");
+        }
+    }
+
     private void validaData(LocalDate data) throws IllegalArgumentException {
-        if(data.isAfter(LocalDate.now())){
+        if(!data.isAfter(LocalDate.now())){
             throw new IllegalArgumentException("Data invalida: inserire una data posteriore a quella corrente.");
         }
     }
@@ -99,6 +106,6 @@ public class Evento {
 
     @Override
     public String toString() {
-        return formattaData(getData()) + " - " + getTitolo();
+        return getData() + " - " + getTitolo();
     }
 }
