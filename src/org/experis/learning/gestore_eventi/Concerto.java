@@ -72,6 +72,6 @@ public class Concerto extends Evento {
 
     @Override
     public String toString() {
-        return formattaData(getData()) + "\t-\t" + formattaOra(getOra()) + "\t-\t" + formattaPrezzo(getPrezzo());
+        return formattaData(getData()) + "\t-\t" + formattaOra(getOra()) + "\t-\t" + formattaPrezzo(getPrezzo()) + "€";
     }
 }
