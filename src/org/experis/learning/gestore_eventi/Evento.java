@@ -1,6 +1,7 @@
 package org.experis.learning.gestore_eventi;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Evento {
     // Attributi
@@ -11,22 +12,17 @@ public class Evento {
 
     // Costruttori
     public Evento(String titolo, LocalDate data, int postiTot) throws IllegalArgumentException {
+        validaData(data);
+        validaPosti(postiTot);
 
         this.titolo = titolo;
-        if(data.isAfter(LocalDate.now())){
-            throw new IllegalArgumentException("Data invalida: inserire una data posteriore a quella corrente.");
-        }
         this.data = data;
-        if(postiTot <= 0){
-            throw new IllegalArgumentException("Numero di posti totale invalido: inserire un numero positivo.");
-        }
         this.postiTot = postiTot;
         this.postiPrenotati = 0;
     }
 
     // Metodi
         // Getter e Setter
-
     public String getTitolo() {
         return titolo;
     }
@@ -40,9 +36,7 @@ public class Evento {
     }
 
     public void setData(LocalDate data) throws IllegalArgumentException {
-        if(data.isAfter(LocalDate.now())){
-            throw new IllegalArgumentException("Data invalida: inserire una data posteriore a quella corrente.");
-        }
+        validaData(data);
         this.data = data;
     }
 
@@ -52,5 +46,58 @@ public class Evento {
 
     public int getPostiPrenotati() {
         return postiPrenotati;
+    }
+        //-----------------//
+
+        // Metodi di servizio
+            // Validatori
+    private void validaData(LocalDate data) throws IllegalArgumentException {
+        if(data.isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("Data invalida: inserire una data posteriore a quella corrente.");
+        }
+    }
+
+    private void validaPosti(int posti) throws IllegalArgumentException {
+        if(posti <= 0){
+            throw new IllegalArgumentException("Numero di posti invalido: inserire un numero positivo.");
+        }
+    }
+
+    private void eventoPassato() throws IllegalArgumentException {
+        if (LocalDate.now().isAfter(this.data)){
+            throw new IllegalArgumentException("Non è più possibile prenotare o disdire per quest'evento.");
+        }
+    }
+            //----------------//
+
+    private String formattaData(LocalDate data){
+        return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    public void prenota(int posti) throws IllegalArgumentException {
+        // Validazioni
+        validaPosti(posti);
+        eventoPassato();
+        if (posti + this.postiPrenotati >= this.postiTot){
+            throw new IllegalArgumentException("Posti disponibili insufficienti per la prenotazione richiesta.");
+        }
+
+        // Istruzione effettiva del metodo
+        this.postiPrenotati += posti;
+    }
+
+    public void disdici(int posti) throws IllegalArgumentException {
+        // Validazioni
+        if (this.postiPrenotati - posti < 0){
+            throw new IllegalArgumentException("Numero di posti prenotati da disdire invalido.");
+        }
+
+        // Istruzione effettiva del metodo
+        this.postiPrenotati -= posti;
+    }
+
+    @Override
+    public String toString() {
+        return formattaData(getData()) + " - " + getTitolo();
     }
 }
