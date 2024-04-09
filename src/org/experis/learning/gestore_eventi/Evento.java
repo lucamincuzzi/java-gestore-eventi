@@ -88,7 +88,8 @@ public class Evento {
 
     public void disdici(int posti) throws IllegalArgumentException {
         // Validazioni
-        if (this.postiPrenotati - posti < 0){
+        validaPosti(posti);
+        if (posti > getPostiPrenotati()){
             throw new IllegalArgumentException("Numero di posti prenotati da disdire invalido.");
         }
 
