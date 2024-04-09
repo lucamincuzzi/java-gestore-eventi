@@ -26,4 +26,21 @@ public class Concerto extends Evento {
             throw new IllegalArgumentException("Prezzo invalido.");
         }
     }
+
+    public LocalTime getOra() {
+        return ora;
+    }
+
+    public void setOra(LocalTime ora) {
+        this.ora = ora;
+    }
+
+    public BigDecimal getPrezzo() {
+        return prezzo;
+    }
+
+    public void setPrezzo(BigDecimal prezzo) {
+        validaPrezzo(prezzo);
+        this.prezzo = prezzo;
+    }
 }
