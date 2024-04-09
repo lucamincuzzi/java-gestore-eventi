@@ -81,6 +81,10 @@ public class Evento {
         return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
+    public int postiDisponibili(){
+        return getPostiTot() - getPostiPrenotati();
+    }
+
     public void prenota(int posti) throws IllegalArgumentException {
         // Validazioni
         validaPosti(posti);
