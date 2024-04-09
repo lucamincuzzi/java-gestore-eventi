@@ -23,4 +23,34 @@ public class Evento {
         this.postiTot = postiTot;
         this.postiPrenotati = 0;
     }
+
+    // Metodi
+        // Getter e Setter
+
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) throws IllegalArgumentException {
+        if(data.isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("Data invalida: inserire una data posteriore a quella corrente.");
+        }
+        this.data = data;
+    }
+
+    public int getPostiTot() {
+        return postiTot;
+    }
+
+    public int getPostiPrenotati() {
+        return postiPrenotati;
+    }
 }
